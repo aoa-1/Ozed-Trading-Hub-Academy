@@ -176,3 +176,145 @@ footer {
   background: #0B0F19;
   color: #9CA3AF;
 }
+/* MODULE PAGE */
+.page {
+  padding: 40px;
+  color: white;
+}
+
+.page-title {
+  font-size: 32px;
+}
+
+.subtitle {
+  color: #9CA3AF;
+  margin-bottom: 30px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* MODULE CARD */
+.module-card {
+  background: #121826;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  transition: 0.3s;
+}
+
+.module-card:hover {
+  transform: translateY(-5px);
+}
+
+.module-card ul {
+  padding-left: 18px;
+  color: #9CA3AF;
+}
+
+/* BUTTON */
+.btn-green {
+  display: inline-block;
+  margin-top: 15px;
+  background: #22C55E;
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+/* LOCKED MODULE */
+.locked {
+  opacity: 0.5;
+}
+
+.locked button {
+  margin-top: 15px;
+  padding: 10px;
+  background: gray;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+/* LESSON PAGE LAYOUT */
+.lesson-layout {
+  display: flex;
+  height: 100vh;
+  color: white;
+}
+
+/* SIDEBAR */
+.lesson-sidebar {
+  width: 250px;
+  background: #121826;
+  padding: 20px;
+}
+
+.lesson-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lesson-sidebar li {
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  color: #9CA3AF;
+}
+
+.lesson-sidebar li.active {
+  background: #3B82F6;
+  color: white;
+  border-radius: 5px;
+}
+
+/* CONTENT */
+.lesson-content {
+  flex: 1;
+  padding: 30px;
+  background: #0B0F19;
+}
+
+.video-box {
+  margin-bottom: 20px;
+}
+
+.lesson-text {
+  background: #121826;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* ACTION BUTTONS */
+.lesson-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-green {
+  background: #22C55E;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+
+.btn-blue {
+  background: #3B82F6;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+
+.btn-gray {
+  background: #374151;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
