@@ -8,103 +8,110 @@
 
 <body>
 
-<!-- TOP NAV -->
-<header class="topbar">
-  <h2>Trading Modules</h2>
-  <div>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="index.html">Logout</a>
-  </div>
-</header>
+<div class="app-layout">
 
-<div class="layout">
-
-  <!-- Sidebar -->
+  <!-- SIDEBAR (GLOBAL SYSTEM) -->
   <aside class="sidebar">
     <h2>Ozed Academy</h2>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a class="active" href="modules.html">Modules</a>
-      <a href="progress.html">Progress</a>
-      <a href="certificates.html">Certificates</a>
-      <a href="settings.html">Settings</a>
-    </nav>
+
+    <a href="dashboard.html">Dashboard</a>
+    <a class="active" href="modules.html">Modules</a>
+    <a href="progress.html">Progress</a>
+    <a href="certificates.html">Certificates</a>
+    <a href="settings.html">Settings</a>
   </aside>
-  
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h2>Trading Modules</h2>
+
+      <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="index.html">Logout</a>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <section class="page">
+
+      <h1 class="page-title">Your Learning Path</h1>
+      <p class="subtitle">
+        Complete modules step by step to become a professional trader
+      </p>
+
+      <!-- MODULE GRID -->
+      <div class="module-grid">
+
+        <!-- MODULE 1 -->
+        <div class="module-card">
+          <h3>Module 1</h3>
+          <h2>Trading Foundations</h2>
+          <p>Learn the basics of financial markets and trading concepts.</p>
+
+          <ul>
+            <li>What is trading?</li>
+            <li>Market types</li>
+            <li>Basic terminology</li>
+          </ul>
+
+          <a href="lesson.html" class="btn-green">Start Module</a>
+        </div>
+
+        <!-- MODULE 2 -->
+        <div class="module-card locked">
+          <h3>Module 2</h3>
+          <h2>Market Structure</h2>
+          <p>Understand how price moves in structured patterns.</p>
+
+          <ul>
+            <li>Trends</li>
+            <li>Support & Resistance</li>
+            <li>Break of Structure</li>
+          </ul>
+
+          <button disabled>Locked</button>
+        </div>
+
+        <!-- MODULE 3 -->
+        <div class="module-card locked">
+          <h3>Module 3</h3>
+          <h2>Risk Management</h2>
+          <p>Learn how to protect your capital and stay profitable.</p>
+
+          <ul>
+            <li>Risk per trade</li>
+            <li>Lot sizing</li>
+            <li>Drawdown control</li>
+          </ul>
+
+          <button disabled>Locked</button>
+        </div>
+
+        <!-- MODULE 4 -->
+        <div class="module-card locked">
+          <h3>Module 4</h3>
+          <h2>Smart Money Concepts</h2>
+          <p>Learn institutional trading strategies.</p>
+
+          <ul>
+            <li>Liquidity</li>
+            <li>Order Blocks</li>
+            <li>Market Manipulation</li>
+          </ul>
+
+          <button disabled>Locked</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
 </div>
-
-<!-- PAGE WRAPPER -->
-<section class="page">
-
-  <h1 class="page-title">Your Learning Path</h1>
-  <p class="subtitle">Complete modules step by step to become a professional trader</p>
-
-  <!-- MODULE GRID -->
-  <div class="module-grid">
-
-    <!-- MODULE 1 -->
-    <div class="module-card">
-      <h3>Module 1</h3>
-      <h2>Trading Foundations</h2>
-      <p>Learn the basics of financial markets and trading concepts.</p>
-
-      <ul>
-        <li>What is trading?</li>
-        <li>Market types</li>
-        <li>Basic terminology</li>
-      </ul>
-
-      <a href="lesson.html" class="btn-green">Start Module</a>
-    </div>
-
-    <!-- MODULE 2 -->
-    <div class="module-card locked">
-      <h3>Module 2</h3>
-      <h2>Market Structure</h2>
-      <p>Understand how price moves in structured patterns.</p>
-
-      <ul>
-        <li>Trends</li>
-        <li>Support & Resistance</li>
-        <li>Break of Structure</li>
-      </ul>
-
-      <button disabled>Locked</button>
-    </div>
-
-    <!-- MODULE 3 -->
-    <div class="module-card locked">
-      <h3>Module 3</h3>
-      <h2>Risk Management</h2>
-      <p>Learn how to protect your capital and stay profitable.</p>
-
-      <ul>
-        <li>Risk per trade</li>
-        <li>Lot sizing</li>
-        <li>Drawdown control</li>
-      </ul>
-
-      <button disabled>Locked</button>
-    </div>
-
-    <!-- MODULE 4 -->
-    <div class="module-card locked">
-      <h3>Module 4</h3>
-      <h2>Smart Money Concepts</h2>
-      <p>Learn institutional trading strategies.</p>
-
-      <ul>
-        <li>Liquidity</li>
-        <li>Order Blocks</li>
-        <li>Market Manipulation</li>
-      </ul>
-
-      <button disabled>Locked</button>
-    </div>
-
-  </div>
-
-</section>
 
 </body>
 </html>
