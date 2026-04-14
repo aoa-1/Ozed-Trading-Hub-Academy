@@ -95,3 +95,84 @@ body {
 .module-card.locked {
   opacity: 0.5;
 }
+/* HERO */
+.hero {
+  background: #0B0F19;
+  padding: 60px 20px;
+  color: white;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+.btn {
+  background: #3B82F6;
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+/* HERO CONTENT */
+.hero-content {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.hero-content h1 {
+  font-size: 40px;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 20px;
+  background: #22C55E;
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+/* SECTIONS */
+.section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.card {
+  background: #121826;
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  color: white;
+}
+
+/* CTA SECTION */
+.cta-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: #121826;
+  color: white;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #0B0F19;
+  color: #9CA3AF;
+}
