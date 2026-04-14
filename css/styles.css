@@ -359,3 +359,56 @@ body {
     height: 220px !important;
   }
 }
+/* =========================
+   GLOBAL APP LAYOUT
+========================= */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR (GLOBAL) */
+.sidebar {
+  width: 240px;
+  background: #121826;
+  padding: 20px;
+  color: white;
+}
+
+/* MAIN AREA */
+.main {
+  flex: 1;
+  background: #0B0F19;
+  padding: 20px;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* NAV LINKS */
+.sidebar a {
+  display: block;
+  padding: 10px;
+  color: #9CA3AF;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+
+.sidebar a:hover {
+  background: #1F2937;
+  color: white;
+}
+
+/* ACTIVE STATE */
+.sidebar a.active {
+  background: #3B82F6;
+  color: white;
+}
