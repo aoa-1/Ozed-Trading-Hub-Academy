@@ -466,3 +466,25 @@ body {
   display: flex;
   gap: 10px;
 }
+@media (max-width: 768px) {
+
+  .lesson-layout {
+    flex-direction: column;
+  }
+
+  .lesson-sidebar {
+    width: 100%;
+  }
+
+  iframe {
+    height: 220px;
+  }
+
+  .lesson-actions {
+    flex-direction: column;
+  }
+
+  .lesson-actions button {
+    width: 100%;
+  }
+}
