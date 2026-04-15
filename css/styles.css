@@ -412,3 +412,57 @@ body {
   background: #3B82F6;
   color: white;
 }
+/* LESSON LAYOUT */
+.lesson-layout {
+  display: flex;
+  gap: 20px;
+}
+
+/* LESSON SIDEBAR */
+.lesson-sidebar {
+  width: 250px;
+  background: #121826;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.lesson-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lesson-sidebar li {
+  padding: 10px;
+  color: #9CA3AF;
+  cursor: pointer;
+}
+
+.lesson-sidebar li.active {
+  background: #3B82F6;
+  color: white;
+  border-radius: 5px;
+}
+
+/* CONTENT */
+.lesson-content {
+  flex: 1;
+}
+
+/* VIDEO */
+.video-box {
+  margin-bottom: 20px;
+}
+
+/* TEXT */
+.lesson-text {
+  background: #121826;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* BUTTONS */
+.lesson-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}

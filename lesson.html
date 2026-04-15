@@ -8,72 +8,85 @@
 
 <body>
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <h2>Module 1: Trading Foundations</h2>
-  <div>
-    <a href="modules.html">Back to Modules</a>
-  </div>
-</header>
+<div class="app-layout">
 
-<!-- MAIN LAYOUT -->
-<div class="lesson-layout">
+  <!-- GLOBAL SIDEBAR -->
+  <aside class="sidebar">
+    <h2>Ozed Academy</h2>
 
-  <!-- SIDEBAR (LESSONS LIST) -->
-  <aside class="lesson-sidebar">
-
-    <h3>Lessons</h3>
-
-    <ul>
-      <li class="active">1. Introduction to Trading</li>
-      <li>2. Market Types</li>
-      <li>3. Basic Terminology</li>
-      <li>4. How Markets Move</li>
-      <li>5. Psychology Basics</li>
-    </ul>
-
+    <a href="dashboard.html">Dashboard</a>
+    <a class="active" href="modules.html">Modules</a>
+    <a href="progress.html">Progress</a>
+    <a href="certificates.html">Certificates</a>
+    <a href="settings.html">Settings</a>
   </aside>
 
-  <!-- CONTENT AREA -->
-  <main class="lesson-content">
+  <!-- MAIN CONTENT -->
+  <main class="main">
 
-    <!-- VIDEO SECTION -->
-    <div class="video-box">
-      <iframe 
-        width="100%" 
-        height="400" 
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        title="Lesson Video"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h2>Module 1: Trading Foundations</h2>
+      <a href="modules.html">← Back to Modules</a>
     </div>
 
-    <!-- LESSON TEXT -->
-    <div class="lesson-text">
+    <!-- LESSON LAYOUT -->
+    <div class="lesson-layout">
 
-      <h2>Introduction to Trading</h2>
+      <!-- LESSON SIDEBAR (LESSON LIST) -->
+      <aside class="lesson-sidebar">
 
-      <p>
-        In this lesson, you will understand what trading is and how financial markets operate.
-        This is the foundation of your entire trading journey.
-      </p>
+        <h3>Lessons</h3>
 
-      <h3>Key Points:</h3>
-      <ul>
-        <li>Trading is the exchange of financial assets</li>
-        <li>Markets move based on supply and demand</li>
-        <li>Consistency matters more than predictions</li>
-      </ul>
+        <ul>
+          <li class="active">1. Introduction to Trading</li>
+          <li>2. Market Types</li>
+          <li>3. Basic Terminology</li>
+          <li>4. How Markets Move</li>
+          <li>5. Psychology Basics</li>
+        </ul>
 
-    </div>
+      </aside>
 
-    <!-- ACTION BUTTONS -->
-    <div class="lesson-actions">
+      <!-- LESSON CONTENT -->
+      <section class="lesson-content">
 
-      <button class="btn-gray">Previous Lesson</button>
-      <button class="btn-green">Mark as Complete</button>
-      <button class="btn-blue">Next Lesson</button>
+        <!-- VIDEO -->
+        <div class="video-box">
+          <iframe 
+            width="100%" 
+            height="400"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- TEXT -->
+        <div class="lesson-text">
+          <h2>Introduction to Trading</h2>
+
+          <p>
+            In this lesson, you will understand what trading is and how financial markets operate.
+            This forms the foundation of your trading journey.
+          </p>
+
+          <h3>Key Points:</h3>
+          <ul>
+            <li>Trading involves buying and selling assets</li>
+            <li>Markets move based on supply and demand</li>
+            <li>Discipline is more important than prediction</li>
+          </ul>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="lesson-actions">
+          <button class="btn-gray">Previous</button>
+          <button class="btn-green">Mark Complete</button>
+          <button class="btn-blue">Next</button>
+        </div>
+
+      </section>
 
     </div>
 
