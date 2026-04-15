@@ -9,14 +9,21 @@
 <body>
   <script type="module">
 import { auth } from "./js/firebase.js";
-import { onAuthStateChanged } 
+import { onAuthStateChanged, signOut } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// 🔐 Protect page
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
   }
 });
+
+// 🚪 Logout
+window.logout = async function () {
+  await signOut(auth);
+  window.location.href = "login.html";
+}
 </script>
 
 <div class="layout">
@@ -39,19 +46,10 @@ onAuthStateChanged(auth, (user) => {
     <!-- Top Bar -->
     <header class="topbar">
       <h1>Welcome back, Trader 👋</h1>
-      <div class="user">Alexander</div>
-    </header>
-    <script type="module">
-import { auth } from "./js/firebase.js";
-import { signOut } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-window.logout = async function () {
-  await signOut(auth);
-  window.location.href = "login.html";
-}
-</script>
-
+      <div class="user">
+  Alexander | <a href="#" onclick="logout()">Logout</a>
+</div>    </header>
+  
     <!-- Cards -->
     <section class="cards">
 
