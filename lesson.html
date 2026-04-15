@@ -8,15 +8,43 @@
 
 <body>
   <script type="module">
-import { auth } from "./js/firebase.js";
+import { auth, db } from "./js/firebase.js";
 import { onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+import { doc, updateDoc, arrayUnion, getDoc } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+let userId;
+
+// 🔐 Auth check
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
+  } else {
+    userId = user.uid;
   }
 });
+
+// 🧠 Mark lesson complete
+window.markComplete = async function () {
+  if (!userId) return;
+
+  const userRef = doc(db, "users", userId);
+  const userSnap = await getDoc(userRef);
+
+  if (!userSnap.exists()) return;
+
+  const data = userSnap.data();
+  const currentProgress = data.progress || 0;
+
+  await updateDoc(userRef, {
+    completedLessons: arrayUnion("lesson1"),
+    progress: currentProgress + 20
+  });
+
+  alert("Lesson completed!");
+};
 </script>
 
 <div class="app-layout">
@@ -93,8 +121,12 @@ onAuthStateChanged(auth, (user) => {
         <!-- ACTION BUTTONS -->
         <div class="lesson-actions">
           <button class="btn-gray">Previous</button>
-          <button class="btn-green">Mark Complete</button>
+          <button class="btn-green" onclick="markComplete()">
+  Mark Complete
+</button>
           <button class="btn-blue">Next</button>
+          
+</button>
         </div>
 
       </section>
