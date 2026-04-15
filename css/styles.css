@@ -488,3 +488,7 @@ body {
     width: 100%;
   }
 }
+.module-card.locked {
+  opacity: 0.5;
+  pointer-events: none;
+}
