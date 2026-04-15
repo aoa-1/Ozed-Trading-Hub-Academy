@@ -39,9 +39,9 @@ window.markComplete = async function () {
   const currentProgress = data.progress || 0;
 
   await updateDoc(userRef, {
-    completedLessons: arrayUnion("lesson1"),
-    progress: currentProgress + 20
-  });
+  completedLessons: arrayUnion("module1_lesson1"),
+  progress: currentProgress + 20
+});
 
   alert("Lesson completed!");
 };
@@ -119,16 +119,15 @@ window.markComplete = async function () {
         </div>
 
         <!-- ACTION BUTTONS -->
-        <div class="lesson-actions">
-          <button class="btn-gray">Previous</button>
-          <button class="btn-green" onclick="markComplete()">
-  Mark Complete
-</button>
-          <button class="btn-blue">Next</button>
-          
-</button>
-        </div>
+       <div class="lesson-actions">
+  <button class="btn-gray">Previous</button>
 
+  <button class="btn-green" onclick="markComplete()">
+    Mark Complete
+  </button>
+
+  <button class="btn-blue">Next</button>
+</div>
       </section>
 
     </div>
