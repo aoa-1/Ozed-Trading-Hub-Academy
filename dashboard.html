@@ -41,6 +41,16 @@ onAuthStateChanged(auth, (user) => {
       <h1>Welcome back, Trader 👋</h1>
       <div class="user">Alexander</div>
     </header>
+    <script type="module">
+import { auth } from "./js/firebase.js";
+import { signOut } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+window.logout = async function () {
+  await signOut(auth);
+  window.location.href = "login.html";
+}
+</script>
 
     <!-- Cards -->
     <section class="cards">
