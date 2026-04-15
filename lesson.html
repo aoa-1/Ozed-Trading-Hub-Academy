@@ -7,7 +7,9 @@
 </head>
 
 <body>
-  <script type="module">
+
+<!-- ================= FIREBASE SCRIPT ================= -->
+<script type="module">
 import { auth, db } from "./js/firebase.js";
 import { onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -16,40 +18,70 @@ import { doc, updateDoc, arrayUnion, getDoc }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 let userId;
+const lessonId = "module1_lesson1";
+const btn = document.getElementById("completeBtn");
 
-// 🔐 Auth check
-onAuthStateChanged(auth, (user) => {
+/* ================= AUTH GUARD ================= */
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
-  } else {
-    userId = user.uid;
+    return;
+  }
+
+  userId = user.uid;
+
+  // Enable button after auth
+  if (btn) btn.disabled = false;
+
+  // Check if already completed
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (snap.exists()) {
+    const data = snap.data();
+
+    if (data.completedLessons?.includes(lessonId)) {
+      btn.innerText = "Completed";
+      btn.disabled = true;
+    }
   }
 });
 
-// 🧠 Mark lesson complete
-window.markComplete = async function () {
+/* ================= MARK COMPLETE ================= */
+window.markComplete = async () => {
   if (!userId) return;
 
   const userRef = doc(db, "users", userId);
-  const userSnap = await getDoc(userRef);
+  const snap = await getDoc(userRef);
 
-  if (!userSnap.exists()) return;
+  if (!snap.exists()) return;
 
-  const data = userSnap.data();
+  const data = snap.data();
+
+  // prevent double counting
+  if (data.completedLessons?.includes(lessonId)) {
+    alert("Already completed!");
+    return;
+  }
+
   const currentProgress = data.progress || 0;
 
   await updateDoc(userRef, {
-  completedLessons: arrayUnion("module1_lesson1"),
-  progress: currentProgress + 20
-});
+    completedLessons: arrayUnion(lessonId),
+    progress: currentProgress + 20
+  });
 
   alert("Lesson completed!");
+
+  btn.innerText = "Completed";
+  btn.disabled = true;
 };
 </script>
 
+<!-- ================= APP LAYOUT ================= -->
 <div class="app-layout">
 
-  <!-- GLOBAL SIDEBAR -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2>Ozed Academy</h2>
 
@@ -60,7 +92,7 @@ window.markComplete = async function () {
     <a href="settings.html">Settings</a>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main class="main">
 
     <!-- TOPBAR -->
@@ -72,11 +104,9 @@ window.markComplete = async function () {
     <!-- LESSON LAYOUT -->
     <div class="lesson-layout">
 
-      <!-- LESSON SIDEBAR (LESSON LIST) -->
+      <!-- LESSON LIST -->
       <aside class="lesson-sidebar">
-
         <h3>Lessons</h3>
-
         <ul>
           <li class="active">1. Introduction to Trading</li>
           <li>2. Market Types</li>
@@ -84,13 +114,11 @@ window.markComplete = async function () {
           <li>4. How Markets Move</li>
           <li>5. Psychology Basics</li>
         </ul>
-
       </aside>
 
-      <!-- LESSON CONTENT -->
+      <!-- CONTENT -->
       <section class="lesson-content">
 
-        <!-- VIDEO -->
         <div class="video-box">
           <iframe 
             width="100%" 
@@ -101,13 +129,11 @@ window.markComplete = async function () {
           </iframe>
         </div>
 
-        <!-- TEXT -->
         <div class="lesson-text">
           <h2>Introduction to Trading</h2>
 
           <p>
             In this lesson, you will understand what trading is and how financial markets operate.
-            This forms the foundation of your trading journey.
           </p>
 
           <h3>Key Points:</h3>
@@ -119,15 +145,16 @@ window.markComplete = async function () {
         </div>
 
         <!-- ACTION BUTTONS -->
-       <div class="lesson-actions">
-  <button class="btn-gray">Previous</button>
+        <div class="lesson-actions">
+          <button class="btn-gray">Previous</button>
 
-  <button class="btn-green" onclick="markComplete()">
-    Mark Complete
-  </button>
+          <button class="btn-green" id="completeBtn" disabled>
+            Mark Complete
+          </button>
 
-  <button class="btn-blue">Next</button>
-</div>
+          <button class="btn-blue">Next</button>
+        </div>
+
       </section>
 
     </div>
@@ -135,6 +162,15 @@ window.markComplete = async function () {
   </main>
 
 </div>
+
+<!-- CONNECT BUTTON EVENT -->
+<script>
+  document.getElementById("completeBtn").addEventListener("click", () => {
+    if (typeof markComplete === "function") {
+      markComplete();
+    }
+  });
+</script>
 
 </body>
 </html>
