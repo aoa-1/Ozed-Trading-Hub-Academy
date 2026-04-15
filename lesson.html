@@ -19,9 +19,8 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 let userId;
 const lessonId = "module1_lesson1";
-const btn = document.getElementById("completeBtn");
 
-/* ================= AUTH GUARD ================= */
+/* ================= AUTH ================= */
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -30,25 +29,32 @@ onAuthStateChanged(auth, async (user) => {
 
   userId = user.uid;
 
-  // Enable button after auth
-  if (btn) btn.disabled = false;
+  // wait until DOM is ready
+  const btn = document.getElementById("completeBtn");
 
-  // Check if already completed
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
+  if (btn) {
+    btn.disabled = false;
 
-  if (snap.exists()) {
-    const data = snap.data();
+    // check if already completed
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
 
-    if (data.completedLessons?.includes(lessonId)) {
-      btn.innerText = "Completed";
-      btn.disabled = true;
+    if (snap.exists()) {
+      const data = snap.data();
+
+      if (data.completedLessons?.includes(lessonId)) {
+        btn.innerText = "Completed";
+        btn.disabled = true;
+      }
     }
+
+    // attach click AFTER auth + DOM ready
+    btn.addEventListener("click", markComplete);
   }
 });
 
-/* ================= MARK COMPLETE ================= */
-window.markComplete = async () => {
+/* ================= COMPLETE LESSON ================= */
+async function markComplete() {
   if (!userId) return;
 
   const userRef = doc(db, "users", userId);
@@ -58,7 +64,6 @@ window.markComplete = async () => {
 
   const data = snap.data();
 
-  // prevent double counting
   if (data.completedLessons?.includes(lessonId)) {
     alert("Already completed!");
     return;
@@ -73,9 +78,10 @@ window.markComplete = async () => {
 
   alert("Lesson completed!");
 
+  const btn = document.getElementById("completeBtn");
   btn.innerText = "Completed";
   btn.disabled = true;
-};
+}
 </script>
 
 <!-- ================= APP LAYOUT ================= -->
