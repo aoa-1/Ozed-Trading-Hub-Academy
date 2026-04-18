@@ -2,181 +2,176 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lesson - Ozed Trading Academy</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-<!-- ================= FIREBASE SCRIPT ================= -->
-<script type="module">
-import { auth, db } from "./js/firebase.js";
-import { onAuthStateChanged } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  <script type="module">
+    import { auth, db } from "./js/firebase.js";
+    import { onAuthStateChanged } 
+      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { doc, updateDoc, arrayUnion, getDoc } 
+      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { doc, updateDoc, arrayUnion, getDoc } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    let userId = null;
+    const lessonId = "module1_lesson1";
 
-let userId;
-const lessonId = "module1_lesson1";
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
 
-/* ================= AUTH ================= */
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
+      userId = user.uid;
 
-  userId = user.uid;
+      const btn = document.getElementById("completeBtn");
+      if (!btn) return;
 
-  // wait until DOM is ready
-  const btn = document.getElementById("completeBtn");
+      btn.disabled = false;
 
-  if (btn) {
-    btn.disabled = false;
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const snap = await getDoc(userRef);
 
-    // check if already completed
-    const userRef = doc(db, "users", user.uid);
-    const snap = await getDoc(userRef);
+        if (snap.exists()) {
+          const data = snap.data();
 
-    if (snap.exists()) {
-      const data = snap.data();
+          if (data.completedLessons?.includes(lessonId)) {
+            btn.innerText = "Completed";
+            btn.disabled = true;
+          }
+        }
 
-      if (data.completedLessons?.includes(lessonId)) {
-        btn.innerText = "Completed";
-        btn.disabled = true;
+        btn.addEventListener("click", markComplete);
+      } catch (error) {
+        console.error("Error loading lesson state:", error);
+      }
+    });
+
+    async function markComplete() {
+      if (!userId) return;
+
+      const btn = document.getElementById("completeBtn");
+      if (btn) btn.disabled = true;
+
+      try {
+        const userRef = doc(db, "users", userId);
+        const snap = await getDoc(userRef);
+
+        if (!snap.exists()) return;
+
+        const data = snap.data();
+
+        if (data.completedLessons?.includes(lessonId)) {
+          alert("Already completed!");
+          if (btn) {
+            btn.innerText = "Completed";
+            btn.disabled = true;
+          }
+          return;
+        }
+
+        const currentProgress = data.progress || 0;
+
+        await updateDoc(userRef, {
+          completedLessons: arrayUnion(lessonId),
+          progress: currentProgress + 20
+        });
+
+        alert("Lesson completed!");
+
+        if (btn) {
+          btn.innerText = "Completed";
+          btn.disabled = true;
+        }
+      } catch (error) {
+        console.error("Error completing lesson:", error);
+        alert("Something went wrong. Please try again.");
+        if (btn) btn.disabled = false;
       }
     }
+  </script>
 
-    // attach click AFTER auth + DOM ready
-    btn.addEventListener("click", markComplete);
-  }
-});
+  <div class="app-layout">
 
-/* ================= COMPLETE LESSON ================= */
-async function markComplete() {
-  if (!userId) return;
+    <aside class="sidebar">
+      <h2>Ozed Academy</h2>
 
-  const userRef = doc(db, "users", userId);
-  const snap = await getDoc(userRef);
+      <a href="dashboard.html">Dashboard</a>
+      <a class="active" href="modules.html">Modules</a>
+      <a href="progress.html">Progress</a>
+      <a href="certificates.html">Certificates</a>
+      <a href="settings.html">Settings</a>
+    </aside>
 
-  if (!snap.exists()) return;
+    <main class="main">
 
-  const data = snap.data();
+      <div class="topbar">
+        <h2>Module 1: Trading Foundations</h2>
+        <a href="modules.html">← Back to Modules</a>
+      </div>
 
-  if (data.completedLessons?.includes(lessonId)) {
-    alert("Already completed!");
-    return;
-  }
+      <div class="lesson-layout">
 
-  const currentProgress = data.progress || 0;
-
-  await updateDoc(userRef, {
-    completedLessons: arrayUnion(lessonId),
-    progress: currentProgress + 20
-  });
-
-  alert("Lesson completed!");
-
-  const btn = document.getElementById("completeBtn");
-  btn.innerText = "Completed";
-  btn.disabled = true;
-}
-</script>
-
-<!-- ================= APP LAYOUT ================= -->
-<div class="app-layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>Ozed Academy</h2>
-
-    <a href="dashboard.html">Dashboard</a>
-    <a class="active" href="modules.html">Modules</a>
-    <a href="progress.html">Progress</a>
-    <a href="certificates.html">Certificates</a>
-    <a href="settings.html">Settings</a>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <h2>Module 1: Trading Foundations</h2>
-      <a href="modules.html">← Back to Modules</a>
-    </div>
-
-    <!-- LESSON LAYOUT -->
-    <div class="lesson-layout">
-
-      <!-- LESSON LIST -->
-      <aside class="lesson-sidebar">
-        <h3>Lessons</h3>
-        <ul>
-          <li class="active">1. Introduction to Trading</li>
-          <li>2. Market Types</li>
-          <li>3. Basic Terminology</li>
-          <li>4. How Markets Move</li>
-          <li>5. Psychology Basics</li>
-        </ul>
-      </aside>
-
-      <!-- CONTENT -->
-      <section class="lesson-content">
-
-        <div class="video-box">
-          <iframe 
-            width="100%" 
-            height="400"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-        </div>
-
-        <div class="lesson-text">
-          <h2>Introduction to Trading</h2>
-
-          <p>
-            In this lesson, you will understand what trading is and how financial markets operate.
-          </p>
-
-          <h3>Key Points:</h3>
+        <aside class="lesson-sidebar">
+          <h3>Lessons</h3>
           <ul>
-            <li>Trading involves buying and selling assets</li>
-            <li>Markets move based on supply and demand</li>
-            <li>Discipline is more important than prediction</li>
+            <li class="active">1. Introduction to Trading</li>
+            <li>2. Market Types</li>
+            <li>3. Basic Terminology</li>
+            <li>4. How Markets Move</li>
+            <li>5. Psychology Basics</li>
           </ul>
-        </div>
+        </aside>
 
-        <!-- ACTION BUTTONS -->
-        <div class="lesson-actions">
-          <button class="btn-gray">Previous</button>
+        <section class="lesson-content">
 
-          <button class="btn-green" id="completeBtn" disabled>
-            Mark Complete
-          </button>
+          <div class="video-box">
+            <iframe 
+              width="100%" 
+              height="400"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Lesson video"
+              frameborder="0"
+              allowfullscreen>
+            </iframe>
+          </div>
 
-          <button class="btn-blue">Next</button>
-        </div>
+          <div class="lesson-text">
+            <h2>Introduction to Trading</h2>
 
-      </section>
+            <p>
+              In this lesson, you will understand what trading is and how financial markets operate.
+            </p>
 
-    </div>
+            <h3>Key Points:</h3>
+            <ul>
+              <li>Trading involves buying and selling assets</li>
+              <li>Markets move based on supply and demand</li>
+              <li>Discipline is more important than prediction</li>
+            </ul>
+          </div>
 
-  </main>
+          <div class="lesson-actions">
+            <button class="btn-gray" type="button">Previous</button>
 
-</div>
+            <button class="btn-green" id="completeBtn" type="button" disabled>
+              Mark Complete
+            </button>
 
-<!-- CONNECT BUTTON EVENT -->
-<script>
-  document.getElementById("completeBtn").addEventListener("click", () => {
-    if (typeof markComplete === "function") {
-      markComplete();
-    }
-  });
-</script>
+            <button class="btn-blue" type="button">Next</button>
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
 
 </body>
 </html>
