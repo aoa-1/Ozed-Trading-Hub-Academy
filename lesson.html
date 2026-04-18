@@ -26,7 +26,6 @@
       </div>
 
       <div class="lesson-layout">
-
         <aside class="lesson-sidebar">
           <h3>Lessons</h3>
           <ul>
@@ -72,7 +71,6 @@
             <button class="btn-blue" type="button">Next</button>
           </div>
         </section>
-
       </div>
     </main>
   </div>
@@ -80,12 +78,7 @@
   <script type="module">
     import { auth, db } from "./js/firebase.js";
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import {
-      doc,
-      getDoc,
-      updateDoc,
-      arrayUnion
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const lessonId = "module1_lesson1";
 
@@ -94,13 +87,15 @@
       let userId = null;
 
       if (!completeBtn) {
-        console.error("completeBtn not found");
+        alert("Button not found");
         return;
       }
 
       async function markComplete() {
+        alert("Button clicked");
+
         if (!userId) {
-          alert("User not ready yet. Please wait a second and try again.");
+          alert("User not loaded yet");
           return;
         }
 
@@ -111,7 +106,7 @@
           const snap = await getDoc(userRef);
 
           if (!snap.exists()) {
-            alert("User record not found in Firestore.");
+            alert("User record not found in Firestore");
             completeBtn.disabled = false;
             return;
           }
@@ -121,7 +116,7 @@
           if (data.completedLessons?.includes(lessonId)) {
             completeBtn.innerText = "Completed";
             completeBtn.disabled = true;
-            alert("Already completed!");
+            alert("Already completed");
             return;
           }
 
@@ -134,10 +129,10 @@
 
           completeBtn.innerText = "Completed";
           completeBtn.disabled = true;
-          alert("Lesson completed!");
+          alert("Lesson completed successfully");
         } catch (error) {
-          console.error("Error completing lesson:", error);
-          alert("Something went wrong. Check browser console.");
+          console.error(error);
+          alert("Firestore error: " + error.message);
           completeBtn.disabled = false;
         }
       }
@@ -149,6 +144,7 @@
         }
 
         userId = user.uid;
+        alert("User loaded: " + user.email);
 
         try {
           const userRef = doc(db, "users", userId);
@@ -167,7 +163,8 @@
             completeBtn.disabled = false;
           }
         } catch (error) {
-          console.error("Error loading lesson state:", error);
+          console.error(error);
+          alert("Load error: " + error.message);
           completeBtn.disabled = false;
         }
       });
