@@ -8,98 +8,10 @@
 </head>
 
 <body>
-
-  <script type="module">
-    import { auth, db } from "./js/firebase.js";
-    import { onAuthStateChanged } 
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { doc, updateDoc, arrayUnion, getDoc } 
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    let userId = null;
-    const lessonId = "module1_lesson1";
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
-
-      userId = user.uid;
-
-      const btn = document.getElementById("completeBtn");
-      if (!btn) return;
-
-      btn.disabled = false;
-
-      try {
-        const userRef = doc(db, "users", user.uid);
-        const snap = await getDoc(userRef);
-
-        if (snap.exists()) {
-          const data = snap.data();
-
-          if (data.completedLessons?.includes(lessonId)) {
-            btn.innerText = "Completed";
-            btn.disabled = true;
-          }
-        }
-
-        btn.addEventListener("click", markComplete);
-      } catch (error) {
-        console.error("Error loading lesson state:", error);
-      }
-    });
-
-    async function markComplete() {
-      if (!userId) return;
-
-      const btn = document.getElementById("completeBtn");
-      if (btn) btn.disabled = true;
-
-      try {
-        const userRef = doc(db, "users", userId);
-        const snap = await getDoc(userRef);
-
-        if (!snap.exists()) return;
-
-        const data = snap.data();
-
-        if (data.completedLessons?.includes(lessonId)) {
-          alert("Already completed!");
-          if (btn) {
-            btn.innerText = "Completed";
-            btn.disabled = true;
-          }
-          return;
-        }
-
-        const currentProgress = data.progress || 0;
-
-        await updateDoc(userRef, {
-          completedLessons: arrayUnion(lessonId),
-          progress: currentProgress + 20
-        });
-
-        alert("Lesson completed!");
-
-        if (btn) {
-          btn.innerText = "Completed";
-          btn.disabled = true;
-        }
-      } catch (error) {
-        console.error("Error completing lesson:", error);
-        alert("Something went wrong. Please try again.");
-        if (btn) btn.disabled = false;
-      }
-    }
-  </script>
-
   <div class="app-layout">
 
     <aside class="sidebar">
       <h2>Ozed Academy</h2>
-
       <a href="dashboard.html">Dashboard</a>
       <a class="active" href="modules.html">Modules</a>
       <a href="progress.html">Progress</a>
@@ -108,7 +20,6 @@
     </aside>
 
     <main class="main">
-
       <div class="topbar">
         <h2>Module 1: Trading Foundations</h2>
         <a href="modules.html">← Back to Modules</a>
@@ -128,10 +39,9 @@
         </aside>
 
         <section class="lesson-content">
-
           <div class="video-box">
-            <iframe 
-              width="100%" 
+            <iframe
+              width="100%"
               height="400"
               src="https://www.youtube.com/embed/dQw4w9WgXcQ"
               title="Lesson video"
@@ -142,7 +52,6 @@
 
           <div class="lesson-text">
             <h2>Introduction to Trading</h2>
-
             <p>
               In this lesson, you will understand what trading is and how financial markets operate.
             </p>
@@ -157,21 +66,114 @@
 
           <div class="lesson-actions">
             <button class="btn-gray" type="button">Previous</button>
-
             <button class="btn-green" id="completeBtn" type="button" disabled>
               Mark Complete
             </button>
-
             <button class="btn-blue" type="button">Next</button>
           </div>
-
         </section>
 
       </div>
-
     </main>
-
   </div>
 
+  <script type="module">
+    import { auth, db } from "./js/firebase.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      doc,
+      getDoc,
+      updateDoc,
+      arrayUnion
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const lessonId = "module1_lesson1";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const completeBtn = document.getElementById("completeBtn");
+      let userId = null;
+
+      if (!completeBtn) {
+        console.error("completeBtn not found");
+        return;
+      }
+
+      async function markComplete() {
+        if (!userId) {
+          alert("User not ready yet. Please wait a second and try again.");
+          return;
+        }
+
+        completeBtn.disabled = true;
+
+        try {
+          const userRef = doc(db, "users", userId);
+          const snap = await getDoc(userRef);
+
+          if (!snap.exists()) {
+            alert("User record not found in Firestore.");
+            completeBtn.disabled = false;
+            return;
+          }
+
+          const data = snap.data();
+
+          if (data.completedLessons?.includes(lessonId)) {
+            completeBtn.innerText = "Completed";
+            completeBtn.disabled = true;
+            alert("Already completed!");
+            return;
+          }
+
+          const currentProgress = Number(data.progress || 0);
+
+          await updateDoc(userRef, {
+            completedLessons: arrayUnion(lessonId),
+            progress: currentProgress + 20
+          });
+
+          completeBtn.innerText = "Completed";
+          completeBtn.disabled = true;
+          alert("Lesson completed!");
+        } catch (error) {
+          console.error("Error completing lesson:", error);
+          alert("Something went wrong. Check browser console.");
+          completeBtn.disabled = false;
+        }
+      }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        userId = user.uid;
+
+        try {
+          const userRef = doc(db, "users", userId);
+          const snap = await getDoc(userRef);
+
+          if (snap.exists()) {
+            const data = snap.data();
+
+            if (data.completedLessons?.includes(lessonId)) {
+              completeBtn.innerText = "Completed";
+              completeBtn.disabled = true;
+            } else {
+              completeBtn.disabled = false;
+            }
+          } else {
+            completeBtn.disabled = false;
+          }
+        } catch (error) {
+          console.error("Error loading lesson state:", error);
+          completeBtn.disabled = false;
+        }
+      });
+
+      completeBtn.addEventListener("click", markComplete);
+    });
+  </script>
 </body>
 </html>
